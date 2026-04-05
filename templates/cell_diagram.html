@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Схема клетки</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #d4e9f7 0%, #b0d4ee 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 30px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #1e5f7a;
+        }
+        .diagram-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        .diagram-container {
+            flex: 2;
+            min-width: 400px;
+            text-align: center;
+        }
+        .diagram-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .info-panel {
+            flex: 1;
+            min-width: 280px;
+            background: #f0f9ff;
+            border-radius: 24px;
+            padding: 20px;
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .info-panel h3 {
+            color: #1e5f7a;
+            border-bottom: 2px solid #1e5f7a;
+            padding-bottom: 8px;
+        }
+        .legend {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .legend-item {
+            background: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            border: 1px solid #1e5f7a;
+            color: #1e5f7a;
+            transition: 0.2s;
+        }
+        .legend-item:hover {
+            background: #1e5f7a;
+            color: white;
+        }
+        .organelle-info {
+            display: none;
+        }
+        .organelle-info.active {
+            display: block;
+        }
+        .organelle-info h4 {
+            color: #0f4156;
+            font-size: 1.3rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            background: #1e5f7a;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 40px;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            background: #0f4156;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🔬 Схема животной и растительной клетки</h1>
+
+    <div class="diagram-wrapper">
+        <div class="diagram-container">
+            {% load static %}
+            <img src="{% static 'images/cell_comparison.jpg' %}" alt="Схема клетки">
+            <p style="margin-top: 10px;">💡 Нажми на название органоида справа, чтобы узнать о нём</p>
+        </div>
+
+        <div class="info-panel">
+            <h3>📖 Информация</h3>
+            <div id="info-content">
+                <p>Выбери органоид из списка ниже</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="legend">
+        <span class="legend-item" data-organelle="centriole">Центриоль</span>
+        <span class="legend-item" data-organelle="lysosome">Лизосома</span>
+        <span class="legend-item" data-organelle="ribosome">Рибосомы</span>
+        <span class="legend-item" data-organelle="nucleus">Ядро</span>
+        <span class="legend-item" data-organelle="golgi">Аппарат Гольджи</span>
+        <span class="legend-item" data-organelle="mitochondria">Митохондрия</span>
+        <span class="legend-item" data-organelle="membrane">Мембрана</span>
+        <span class="legend-item" data-organelle="eps">ЭПС</span>
+        <span class="legend-item" data-organelle="vacuole">Вакуоль</span>
+        <span class="legend-item" data-organelle="chloroplast">Хлоропласт</span>
+    </div>
+
+    <div style="text-align: center;">
+        <a href="{% url 'theory' %}" class="back-link">← Назад к теории</a>
+        <a href="{% url 'home' %}" class="back-link" style="background: #2c7a2c; margin-left: 15px;">🏠 На главную</a>
+    </div>
+</div>
+
+<script>
+    const data = {
+        centriole: { title: "Центриоль", desc: "Участвует в делении клетки. Образует веретено деления." },
+        lysosome: { title: "Лизосома", desc: "Содержит ферменты для расщепления ненужных частей клетки." },
+        ribosome: { title: "Рибосомы", desc: "Синтезируют белки из аминокислот." },
+        nucleus: { title: "Ядро", desc: "Хранит ДНК и управляет жизнедеятельностью клетки." },
+        golgi: { title: "Аппарат Гольджи", desc: "Упаковывает и сортирует белки." },
+        mitochondria: { title: "Митохондрия", desc: "Производит энергию (АТФ)." },
+        membrane: { title: "Мембрана", desc: "Защищает клетку и регулирует обмен веществ." },
+        eps: { title: "ЭПС", desc: "Транспортирует вещества внутри клетки." },
+        vacuole: { title: "Вакуоль", desc: "Запасает воду и питательные вещества (у растений)." },
+        chloroplast: { title: "Хлоропласт", desc: "Осуществляет фотосинтез (у растений)." }
+    };
+
+    document.querySelectorAll('.legend-item').forEach(item => {
+        const id = item.getAttribute('data-organelle');
+        item.addEventListener('click', () => {
+            const info = data[id];
+            document.getElementById('info-content').innerHTML = `
+                <div style="animation: fadeIn 0.3s ease;">
+                    <h4>${info.title}</h4>
+                    <p>${info.desc}</p>
+                </div>
+            `;
+        });
+    });
+</script>
+</body>
+</html>

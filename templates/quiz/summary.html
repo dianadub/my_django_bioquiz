@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты квиза</title>
+    <style>
+        body {
+            background: linear-gradient(145deg, #bdd4e7 0%, #8fb0cc 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .result-card {
+            background: white;
+            border-radius: 48px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #1e5f7a;
+            margin-bottom: 20px;
+        }
+        .score-box {
+            font-size: 3rem;
+            background: #eef4fa;
+            display: inline-block;
+            padding: 20px 40px;
+            border-radius: 80px;
+            margin: 20px 0;
+        }
+        .score-number {
+            font-weight: bold;
+            color: #1e5f7a;
+        }
+        .total-number {
+            font-weight: bold;
+            color: #5f7f9a;
+        }
+        .good-message {
+            background: #cfe8cf;
+            color: #1f5a2e;
+            padding: 12px;
+            border-radius: 40px;
+            margin: 20px 0;
+        }
+        .bad-message {
+            background: #ffe0e0;
+            color: #a12a2a;
+            padding: 12px;
+            border-radius: 40px;
+            margin: 20px 0;
+        }
+        .restart-btn {
+            background: #1e5f7a;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            font-size: 1.1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .restart-btn:hover {
+            background: #0f4156;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #6c8ea2;
+        }
+    </style>
+</head>
+<body>
+<div class="result-card">
+    <h1>🧪 Викторина окончена</h1>
+    <div class="score-box">
+        <span class="score-number">{{ score }}</span> / <span class="total-number">{{ total }}</span>
+    </div>
+    {% if score == total %}
+        <div class="good-message">
+            🎉 Идеально! Ты отлично знаешь клетку!
+        </div>
+    {% else %}
+        <div class="bad-message">
+            📚 Хорошая попытка! Повтори раздел и попробуй снова.
+        </div>
+    {% endif %}
+    <a href="{% url 'show_question' q_id=1 %}" class="restart-btn">🔄 Пройти заново</a>
+    <footer>
+        Биологический квиз · Автор: [Твоё имя]
+    </footer>
+</div>
+</body>
+</html>

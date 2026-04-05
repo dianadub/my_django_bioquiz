@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Клеточная викторина</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #d4e9f7 0%, #b0d4ee 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .quiz-card {
+            background: white;
+            max-width: 700px;
+            width: 100%;
+            border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .quiz-card:hover {
+            transform: translateY(-5px);
+        }
+        .header {
+            background: #1e5f7a;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .content {
+            padding: 30px;
+        }
+        .question-text {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #0a2e3f;
+        }
+        .options {
+            margin: 20px 0;
+        }
+        .option {
+            background: #f0f9ff;
+            border-radius: 60px;
+            padding: 12px 20px;
+            margin-bottom: 12px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        .option:hover {
+            background: #e0f0fe;
+        }
+        .option input {
+            margin-right: 15px;
+            transform: scale(1.2);
+            vertical-align: middle;
+        }
+        .option label {
+            font-size: 1.1rem;
+            color: #1e4660;
+            font-weight: 500;
+        }
+        button {
+            background: #1e5f7a;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.1s;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: #0f4156;
+        }
+        button:active {
+            transform: scale(0.97);
+        }
+        .next-btn {
+            background: #2c7a47;
+            margin-left: 15px;
+        }
+        .next-btn:hover {
+            background: #1e5a35;
+        }
+        .message {
+            font-size: 1.2rem;
+            padding: 12px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+        .correct {
+            background: #dff0e0;
+            color: #1f5a2e;
+            border-left: 6px solid #2c7a47;
+        }
+        .wrong {
+            background: #ffe0e0;
+            color: #a12a2a;
+            border-left: 6px solid #c73636;
+        }
+        .explanation {
+            background: #fef7e0;
+            padding: 15px;
+            border-radius: 24px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #5a4a1a;
+        }
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #f5f9fc;
+            font-size: 0.8rem;
+            color: #5f7f9a;
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-card">
+    <div class="header">
+        <span>🧬 Биоквиз: клетка</span>
+        <span>✅ {{ score }} / {{ total_num }}</span>
+    </div>
+    <div class="content">
+        <div class="question-text">
+            Вопрос {{ current_num }} из {{ total_num }}<br>
+            {{ question.text }}
+        </div>
+
+        {% if answered %}
+            <div class="message {% if is_correct %}correct{% else %}wrong{% endif %}">
+                {% if is_correct %}
+                    🎉 Абсолютно верно!
+                {% else %}
+                    ❌ Неправильно. Верный вариант: {{ correct_text }}
+                {% endif %}
+            </div>
+            {% if question.explanation %}
+                <div class="explanation">
+                    📘 <strong>Разбор:</strong> {{ question.explanation }}
+                </div>
+            {% endif %}
+            <form method="get" action="{% url 'next_question' current_num %}">
+                <button type="submit" class="next-btn">➡️ Следующий вопрос</button>
+            </form>
+        {% else %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="user_choice" value="a" id="opt_a" required>
+                        <label for="opt_a"><strong>A.</strong> {{ question.option_a }}</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="user_choice" value="b" id="opt_b">
+                        <label for="opt_b"><strong>B.</strong> {{ question.option_b }}</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="user_choice" value="c" id="opt_c">
+                        <label for="opt_c"><strong>C.</strong> {{ question.option_c }}</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="user_choice" value="d" id="opt_d">
+                        <label for="opt_d"><strong>D.</strong> {{ question.option_d }}</label>
+                    </div>
+                </div>
+                <button type="submit">📝 Ответить</button>
+            </form>
+        {% endif %}
+    </div>
+    <footer>
+        Проект по биологии | Автор: [Твоё имя]
+    </footer>
+</div>
+</body>
+</html>

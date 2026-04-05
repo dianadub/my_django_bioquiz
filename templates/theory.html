@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}Теория - строение клетки{% endblock %}
+
+{% block content %}
+<style>
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        border-radius: 32px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+        color: #1e5f7a;
+    }
+    h1 {
+        text-align: center;
+        border-bottom: 3px solid #1e5f7a;
+        padding-bottom: 15px;
+    }
+    h2 {
+        margin-top: 30px;
+        border-left: 5px solid #1e5f7a;
+        padding-left: 15px;
+    }
+    .cell-type {
+        background: #f0f9ff;
+        padding: 20px;
+        border-radius: 20px;
+        margin: 20px 0;
+    }
+    .cell-type h3 {
+        color: #0f4156;
+        margin-top: 0;
+    }
+    .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+    .comparison-table th, .comparison-table td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+        vertical-align: top;
+    }
+    .comparison-table th {
+        background: #1e5f7a;
+        color: white;
+    }
+    .comparison-table tr:nth-child(even) {
+        background: #f5f9fc;
+    }
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        background: #1e5f7a;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 40px;
+        text-decoration: none;
+    }
+    .back-link:hover {
+        background: #0f4156;
+    }
+    .fun-fact {
+        background: #fef7e0;
+        padding: 15px;
+        border-radius: 20px;
+        margin: 20px 0;
+        border-left: 5px solid #f4c542;
+    }
+</style>
+
+<div class="container">
+    <h1>🧫 Строение клетки</h1>
+    <p><em>Клетка — элементарная единица живого. Все организмы делятся на две большие группы: прокариоты и эукариоты.</em></p>
+
+    <!-- Эукариотическая клетка -->
+    <div class="cell-type">
+        <h3>📖 Эукариотическая клетка (животные, растения, грибы)</h3>
+        <p><strong>Особенности:</strong> имеет оформленное ядро, в котором хранится ДНК. Внутри клетки есть множество органоидов, каждый выполняет свою функцию.</p>
+        <p><strong>Основные органоиды:</strong></p>
+        <ul>
+            <li><strong>Ядро</strong> — хранит генетическую информацию, управляет клеткой.</li>
+            <li><strong>Митохондрии</strong> — производят энергию (АТФ).</li>
+            <li><strong>Рибосомы</strong> — синтезируют белки.</li>
+            <li><strong>Эндоплазматическая сеть (ЭПС)</strong> — транспорт веществ.</li>
+            <li><strong>Аппарат Гольджи</strong> — упаковывает и сортирует белки.</li>
+            <li><strong>Лизосомы</strong> — переваривают ненужные частицы.</li>
+            <li><strong>Плазматическая мембрана</strong> — отделяет клетку от среды.</li>
+        </ul>
+        <p>У растений есть дополнительные органоиды: <strong>хлоропласты</strong> (фотосинтез), <strong>клеточная стенка</strong> (целлюлоза) и <strong>вакуоли</strong> (запас воды).</p>
+    </div>
+
+    <!-- Прокариотическая клетка -->
+    <div class="cell-type">
+        <h3>🦠 Прокариотическая клетка (бактерии, археи)</h3>
+        <p><strong>Особенности:</strong> нет оформленного ядра. ДНК находится прямо в цитоплазме в виде кольцевой молекулы (нуклеоид). Органоидов мало, нет мембранных органелл.</p>
+        <p><strong>Строение:</strong></p>
+        <ul>
+            <li><strong>Клеточная стенка</strong> (из муреина) — защита и форма.</li>
+            <li><strong>Цитоплазма</strong> — внутренняя среда.</li>
+            <li><strong>Рибосомы</strong> (мельче, чем у эукариот) — синтез белка.</li>
+            <li><strong>Нуклеоид</strong> — зона с кольцевой ДНК.</li>
+            <li><strong>Плазмиды</strong> — маленькие кольца ДНК (дополнительные гены).</li>
+            <li><strong>Жгутики</strong> — для движения (не у всех).</li>
+        </ul>
+        <p>Бактерии не имеют митохондрий, хлоропластов, ЭПС и аппарата Гольджи. Они очень маленькие (0.5–5 мкм).</p>
+    </div>
+
+    <!-- Грибная клетка -->
+    <div class="cell-type">
+        <h3>🍄 Грибная клетка</h3>
+        <p><strong>Особенности:</strong> грибы — отдельное царство эукариот. Их клетки похожи на животные и растительные одновременно.</p>
+        <p><strong>Строение:</strong></p>
+        <ul>
+            <li><strong>Клеточная стенка</strong> (из хитина, как у насекомых) — в отличие от растений (целлюлоза).</li>
+            <li><strong>Ядро</strong> — есть, как у всех эукариот.</li>
+            <li><strong>Митохондрии, ЭПС, аппарат Гольджи</strong> — присутствуют.</li>
+            <li><strong>Вакуоли</strong> — есть, но не такие большие, как у растений.</li>
+            <li><strong>Запасное вещество</strong> — гликоген (как у животных), а не крахмал.</li>
+            <li><strong>Пластид и хлоропластов нет</strong> — грибы не фотосинтезируют.</li>
+        </ul>
+        <p>Грибы — гетеротрофы, питаются готовыми органическими веществами. Часто образуют мицелий (грибницу) — сеть из тонких нитей (гифов).</p>
+    </div>
+
+    <!-- Сравнительная таблица -->
+    <h2>📊 Сравнение типов клеток</h2>
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>Признак</th>
+                <th>Эукариоты (животные)</th>
+                <th>Эукариоты (растения)</th>
+                <th>Грибы</th>
+                <th>Прокариоты</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Ядро</td><td>✅ есть</td><td>✅ есть</td><td>✅ есть</td><td>❌ нет</td></tr>
+            <tr><td>Клеточная стенка</td><td>❌ нет</td><td>✅ (целлюлоза)</td><td>✅ (хитин)</td><td>✅ (муреин)</td></tr>
+            <tr><td>Митохондрии</td><td>✅ есть</td><td>✅ есть</td><td>✅ есть</td><td>❌ нет</td></tr>
+            <tr><td>Хлоропласты</td><td>❌ нет</td><td>✅ есть</td><td>❌ нет</td><td>❌ нет</td></tr>
+            <tr><td>Вакуоли</td><td>❌ нет</td><td>✅ большие</td><td>✅ маленькие</td><td>❌ нет</td></tr>
+            <tr><td>Рибосомы</td><td>✅ (80S)</td><td>✅ (80S)</td><td>✅ (80S)</td><td>✅ (70S)</td></tr>
+            <tr><td>Запасное вещество</td><td>гликоген</td><td>крахмал</td><td>гликоген</td><td>разное</td></tr>
+        </tbody>
+    </table>
+
+    <!-- Интересные факты -->
+    <div class="fun-fact">
+        <strong>🧠 Интересный факт:</strong> Грибы ближе к животным, чем к растениям! Их клеточная стенка состоит из хитина (как у насекомых), а запасное вещество — гликоген.
+    </div>
+    <div class="fun-fact">
+        <strong>🔬 Интересный факт:</strong> Прокариоты появились на Земле около 3.5 миллиардов лет назад, эукариоты — примерно 1.5–2 миллиарда лет назад.
+    </div>
+
+    <a href="{% url 'home' %}" class="back-link">← На главную</a>
+    <a href="{% url 'show_question' q_id=1 %}" class="back-link" style="background: #2c7a2c; margin-left: 15px;">Начать викторину →</a>
+    <a href="{% url 'cell_diagram' %}" class="back-link" style="background: #7a5c3a; margin-left: 15px;">🔬 Интерактивная схема →</a>
+</div>
+{% endblock %}

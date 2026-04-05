@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Моя статистика</title>
+    <style>
+        body { font-family: Arial; background: #e8f0e8; margin: 40px; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 30px; border-radius: 20px; text-align: center; }
+        h1 { color: #1e5f7a; }
+        .stat { font-size: 2rem; margin: 20px; }
+        .back-link { display: inline-block; margin-top: 20px; background: #1e5f7a; color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📊 Твоя статистика</h1>
+    <div class="stat">✅ Правильных ответов: <strong>{{ correct_count }}</strong> из {{ total_questions }}</div>
+    <div class="stat">📈 Процент: <strong>{{ percent }}%</strong></div>
+    <a href="{% url 'home' %}" class="back-link">← На главную</a>
+</div>
+</body>
+</html>

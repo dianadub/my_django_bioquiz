@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - Биоквиз{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center; color: #1e5f7a;">Добро пожаловать в Биоквиз!</h1>
+<p style="text-align: center; margin-bottom: 30px;">Интерактивный учебник по биологии. Изучай строение клетки и проверяй знания.</p>
+
+<div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+    <a href="{% url 'theory' %}" class="btn btn-primary">📖 Теория</a>
+    <a href="{% url 'show_question' q_id=1 %}" class="btn btn-success">🧪 Викторина</a>
+    <a href="{% url 'numbered_quiz' %}" class="btn btn-warning">🔢 Тест по картинке</a>
+    <a href="{% url 'user_stats' %}" class="btn btn-primary">📊 Моя статистика</a>
+    <a href="{% url 'cell_diagram' %}" class="btn btn-primary">🔬 Интерактивная схема</a>
+</div>
+{% endblock %}

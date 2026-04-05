@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Биоквиз{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #d4e9f7 0%, #b0d4ee 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .main-card {
+            background: white;
+            max-width: 1000px;
+            width: 100%;
+            border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: #1e5f7a;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            background: #0f4156;
+            padding: 6px 15px;
+            border-radius: 25px;
+            transition: 0.2s;
+        }
+        .nav-links a:hover {
+            background: #0a3140;
+            transform: scale(1.02);
+        }
+        .content {
+            padding: 30px;
+        }
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #f5f9fc;
+            font-size: 0.8rem;
+            color: #5f7f9a;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.2s;
+            margin: 5px;
+        }
+        .btn-primary {
+            background: #1e5f7a;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #0f4156;
+        }
+        .btn-success {
+            background: #2c7a2c;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #1e5a35;
+        }
+        .btn-warning {
+            background: #f4c542;
+            color: #5a4a1a;
+        }
+        .btn-warning:hover {
+            background: #e0b030;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+<div class="main-card">
+    <div class="header">
+        <h1>🧬 Биоквиз</h1>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">🏠 Главная</a>
+            <a href="{% url 'theory' %}">📖 Теория</a>
+            <a href="{% url 'show_question' q_id=1 %}">🧪 Викторина</a>
+            <a href="{% url 'numbered_quiz' %}">🔢 Тест по картинке</a>
+            <a href="{% url 'user_stats' %}">📊 Статистика</a>
+        </div>
+    </div>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer>
+        Биологический квиз · Проект по веб-разработке
+    </footer>
+</div>
+</body>
+</html>

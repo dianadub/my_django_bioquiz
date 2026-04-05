@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты квиза</title>
+    <style>
+        body {
+            background: linear-gradient(145deg, #bdd4e7 0%, #8fb0cc 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .result-card {
+            background: white;
+            border-radius: 48px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #1e5f7a;
+            margin-bottom: 20px;
+        }
+        .score-box {
+            font-size: 3rem;
+            background: #eef4fa;
+            display: inline-block;
+            padding: 20px 40px;
+            border-radius: 80px;
+            margin: 20px 0;
+        }
+        .score-number {
+            font-weight: bold;
+            color: #1e5f7a;
+        }
+        .total-number {
+            font-weight: bold;
+            color: #5f7f9a;
+        }
+        .good-message {
+            background: #cfe8cf;
+            color: #1f5a2e;
+            padding: 12px;
+            border-radius: 40px;
+            margin: 20px 0;
+        }
+        .bad-message {
+            background: #ffe0e0;
+            color: #a12a2a;
+            padding: 12px;
+            border-radius: 40px;
+            margin: 20px 0;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background: #1e5f7a;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #0f4156;
+            transform: scale(1.02);
+        }
+        .btn-secondary {
+            background: #2c7a2c;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #1e5a35;
+            transform: scale(1.02);
+        }
+        .btn-light {
+            background: #e0e0e0;
+            color: #333;
+        }
+        .btn-light:hover {
+            background: #ccc;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #6c8ea2;
+        }
+    </style>
+</head>
+<body>
+<div class="result-card">
+    <h1>🧪 Викторина окончена</h1>
+    <div class="score-box">
+        <span class="score-number">{{ score }}</span> / <span class="total-number">{{ total }}</span>
+    </div>
+    {% if score == total %}
+        <div class="good-message">
+            🎉 Идеально! Ты отлично знаешь клетку!
+        </div>
+    {% else %}
+        <div class="bad-message">
+            📚 Хорошая попытка! Повтори раздел и попробуй снова.
+        </div>
+    {% endif %}
+
+    <div class="buttons">
+        <a href="{% url 'show_question' q_id=1 %}" class="btn btn-secondary">🔄 Пройти заново</a>
+        <a href="{% url 'home' %}" class="btn btn-primary">🏠 На главную</a>
+    </div>
+</div>
+</body>
+</html>
