@@ -22,3 +22,4 @@
 
 ## Технологии
 Python, Django, SQLite, HTML/CSS
+
