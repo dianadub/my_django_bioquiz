@@ -1,0 +1,9 @@
+text
+db.sqlite3
+.idea/
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.log
+.DS_Store
