@@ -1,7 +1,3 @@
-# pylint: disable=no-member,line-too-long,missing-function-docstring,missing-module-docstring,unused-argument
-# Викторина по биологии "Клетка"
-# Автор: [Твоё имя]
-
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Question
 from .forms import CellQuizForm, NewQuestionForm, NumberQuizForm
@@ -86,6 +82,11 @@ def summary_page(request):
     return render(request, 'summary.html', {'score': user_score, 'total': total_questions})
 
 
+def question_list(request):
+    questions = Question.objects.all()
+    return render(request, 'question_list.html', {'questions': questions})
+
+
 def add_question(request):
     if request.method == 'POST':
         form = NewQuestionForm(request.POST)
@@ -97,40 +98,57 @@ def add_question(request):
     return render(request, 'add_question.html', {'form': form})
 
 
+def edit_question(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    if request.method == 'POST':
+        form = NewQuestionForm(request.POST, instance=question)
+        if form.is_valid():
+            form.save()
+            return redirect('question_list')
+    else:
+        form = NewQuestionForm(instance=question)
+    return render(request, 'add_question.html', {'form': form, 'title': 'Редактировать вопрос'})
+
+
+def delete_question(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    question.delete()
+    return redirect('question_list')
+
+
 def numbered_quiz(request):
-    questions = [
-        {'name': 'Ядро', 'correct': '6'},
-        {'name': 'Аппарат Гольджи', 'correct': '3'},
-        {'name': 'Центриоль', 'correct': '7'},
-    ]
+    questions = Question.objects.filter(is_numbered=True).order_by('id')
+    total = questions.count()
+    if total == 0:
+        return render(request, 'numbered_quiz.html', {'error': 'Нет вопросов для теста'})
 
     current_index = request.session.get('numbered_index', 0)
     score = request.session.get('numbered_score', 0)
 
-    if current_index >= len(questions):
-        result = f"Твой результат: {score} из {len(questions)}"
+    if current_index >= total:
+        result = f"Твой результат: {score} из {total}"
         request.session['numbered_index'] = 0
         request.session['numbered_score'] = 0
         return render(request, 'numbered_quiz.html', {
             'result': result,
             'finished': True,
             'score': score,
-            'total': len(questions)
+            'total': total
         })
 
     current_q = questions[current_index]
     message = ''
-
     if request.method == 'POST':
         form = NumberQuizForm(request.POST)
         if form.is_valid():
             user_answer = form.cleaned_data['answer'].strip()
-            if user_answer == current_q['correct']:
+            correct_num = current_q.number_correct or ''
+            if user_answer == correct_num:
                 score += 1
                 request.session['numbered_score'] = score
-                message = f"Правильно! {current_q['name']} обозначен цифрой {current_q['correct']}"
+                message = f"✅ Правильно! {current_q.text} обозначен цифрой {correct_num}"
             else:
-                message = f"Неправильно. {current_q['name']} обозначен цифрой {current_q['correct']}"
+                message = f"❌ Неправильно. {current_q.text} обозначен цифрой {correct_num}"
             request.session['numbered_index'] = current_index + 1
             return redirect('numbered_quiz')
     else:
@@ -140,7 +158,7 @@ def numbered_quiz(request):
         'form': form,
         'question': current_q,
         'current': current_index + 1,
-        'total': len(questions),
+        'total': total,
         'score': score,
         'message': message,
     }

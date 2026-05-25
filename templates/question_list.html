@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Список вопросов{% endblock %}
+
+{% block content %}
+<h1>📋 Все вопросы викторины</h1>
+{% for q in questions %}
+    <div style="border-bottom: 1px solid #ccc; padding: 15px;">
+        <p><strong>{{ forloop.counter }}. {{ q.text }}</strong></p>
+        <p>A) {{ q.option_a }}<br>B) {{ q.option_b }}<br>C) {{ q.option_c }}<br>D) {{ q.option_d }}</p>
+        <p>✅ Правильный ответ: {{ q.get_correct_display }}</p>
+        <p>📖 Пояснение: {{ q.explanation }}</p>
+        <p>
+            <a href="{% url 'edit_question' q.id %}">✏️ Редактировать</a> |
+            <a href="{% url 'delete_question' q.id %}" onclick="return confirm('Удалить вопрос?');">🗑️ Удалить</a>
+        </p>
+    </div>
+{% empty %}
+    <p>Вопросов пока нет.</p>
+{% endfor %}
+<a href="{% url 'home' %}">На главную</a>
+{% endblock %}
