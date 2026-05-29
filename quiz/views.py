@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Question
-from .forms import CellQuizForm, NewQuestionForm, NumberQuizForm
+from .forms import CellQuizForm, NumberQuizForm
 
 
 def home_page(request):
@@ -79,42 +79,7 @@ def summary_page(request):
         if request.session.get(f'is_correct_{i}'):
             user_score += 1
     request.session.flush()
-    return render(request, 'summary.html', {'score': user_score, 'total': total_questions})
-
-
-def question_list(request):
-    questions = Question.objects.all()
-    return render(request, 'question_list.html', {'questions': questions})
-
-
-def add_question(request):
-    if request.method == 'POST':
-        form = NewQuestionForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('question_list')
-    else:
-        form = NewQuestionForm()
-    return render(request, 'add_question.html', {'form': form})
-
-
-def edit_question(request, pk):
-    question = get_object_or_404(Question, pk=pk)
-    if request.method == 'POST':
-        form = NewQuestionForm(request.POST, instance=question)
-        if form.is_valid():
-            form.save()
-            return redirect('question_list')
-    else:
-        form = NewQuestionForm(instance=question)
-    return render(request, 'add_question.html', {'form': form, 'title': 'Редактировать вопрос'})
-
-
-def delete_question(request, pk):
-    question = get_object_or_404(Question, pk=pk)
-    question.delete()
-    return redirect('question_list')
-
+    return render(request, 'summary.html', {'score': user_score, 'total': total_questions}) 
 
 def numbered_quiz(request):
     questions = Question.objects.filter(is_numbered=True).order_by('id')
