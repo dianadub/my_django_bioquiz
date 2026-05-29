@@ -7,9 +7,7 @@ class Question(models.Model):
     option_c = models.CharField(max_length=200)
     option_d = models.CharField(max_length=200)
     correct = models.CharField(max_length=1)
-    explanation = models.TextField(blank=True)
-    is_numbered = models.BooleanField(default=False, verbose_name="Участвует в тесте по картинке")
-    number_correct = models.CharField(max_length=2, blank=True, null=True, verbose_name="Правильная цифра")
+    explanation = models.TextField(blank=True) 
 
     def __str__(self):
         return self.text
