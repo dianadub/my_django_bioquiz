@@ -79,26 +79,28 @@ def summary_page(request):
         if request.session.get(f'is_correct_{i}'):
             user_score += 1
     request.session.flush()
-    return render(request, 'summary.html', {'score': user_score, 'total': total_questions}) 
+    return render(request, 'summary.html', {'score': user_score, 'total': total_questions})
+
 
 def numbered_quiz(request):
-    questions = Question.objects.filter(is_numbered=True).order_by('id')
-    total = questions.count()
-    if total == 0:
-        return render(request, 'numbered_quiz.html', {'error': 'Нет вопросов для теста'})
+    questions = [
+        {'number': 5, 'name': 'Ядро', 'correct': '5'},
+        {'number': 3, 'name': 'Аппарат Гольджи', 'correct': '3'},
+        {'number': 7, 'name': 'Центриоль', 'correct': '7'},
+    ]
 
     current_index = request.session.get('numbered_index', 0)
     score = request.session.get('numbered_score', 0)
 
-    if current_index >= total:
-        result = f"Твой результат: {score} из {total}"
+    if current_index >= len(questions):
+        result = f"Твой результат: {score} из {len(questions)}"
         request.session['numbered_index'] = 0
         request.session['numbered_score'] = 0
         return render(request, 'numbered_quiz.html', {
             'result': result,
             'finished': True,
             'score': score,
-            'total': total
+            'total': len(questions)
         })
 
     current_q = questions[current_index]
@@ -107,13 +109,12 @@ def numbered_quiz(request):
         form = NumberQuizForm(request.POST)
         if form.is_valid():
             user_answer = form.cleaned_data['answer'].strip()
-            correct_num = current_q.number_correct or ''
-            if user_answer == correct_num:
+            if user_answer == current_q['correct']:
                 score += 1
                 request.session['numbered_score'] = score
-                message = f"✅ Правильно! {current_q.text} обозначен цифрой {correct_num}"
+                message = f"✅ Правильно! {current_q['name']} обозначен цифрой {current_q['correct']}"
             else:
-                message = f"❌ Неправильно. {current_q.text} обозначен цифрой {correct_num}"
+                message = f"❌ Неправильно. {current_q['name']} обозначен цифрой {current_q['correct']}"
             request.session['numbered_index'] = current_index + 1
             return redirect('numbered_quiz')
     else:
@@ -123,7 +124,7 @@ def numbered_quiz(request):
         'form': form,
         'question': current_q,
         'current': current_index + 1,
-        'total': total,
+        'total': len(questions),
         'score': score,
         'message': message,
     }
@@ -149,3 +150,4 @@ def user_stats(request):
         'percent': percent,
     }
     return render(request, 'stats.html', context)
+    
